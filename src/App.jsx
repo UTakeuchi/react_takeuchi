@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import './App.css';
-// import { TodoList } from './components/StudyRecord';
+import { InputRecord } from './components/InputRecord';
+import { StudyRecords } from './components/StudyRecords';
 
 export const App = () => {
   const [title, setTitle] = useState("");
@@ -31,25 +32,8 @@ export const App = () => {
 
   return (
     <>
-      <div>
-        <input placeholder='学習内容を入力' value={title} onChange={onchangeTitle} />
-        <input placeholder='学習時間を入力' value={time} onChange={onchangeTime} />
-        <button onClick={() => onClickRegister(title, time)}>登録</button>
-      </div>
-      <div>
-        <p>学習記録一覧</p>
-        <ul>
-          {records.map((record, index) => (
-            <li key={index}>
-              <div>
-                <p>{record.title}, {record.time}時間</p>
-              </div>
-            </li>
-          ))}
-        </ul>
-        <p>勉強合計時間：{totalTime}時間</p>
-      </div >
-      {/* <TodoList /> */}
+      <InputRecord title={title} time={time} onchangeTitle={onchangeTitle} onchangeTime={onchangeTime} onClickRegister={onClickRegister} />
+      <StudyRecords records={records} totalTime={totalTime} />
     </>
   );
 };
