@@ -2,16 +2,11 @@ import { useState } from 'react';
 import './App.css';
 import { InputRecord } from './components/InputRecord';
 import { StudyRecords } from './components/StudyRecords';
+import { supabase } from './lib/supabaseClient';
 
 export const App = () => {
   const [title, setTitle] = useState("");
   const [time, setTime] = useState("");
-  const [records, setRecords] = useState([
-    { title: "勉強の記録1", time: 1 },
-    { title: "勉強の記録2", time: 3 },
-    { title: "勉強の記録3", time: 5 }
-  ]);
-  const totalTime = records.reduce((sum, record) => sum + Number(record.time), 0);
 
   const onchangeTitle = (event) => setTitle(event.target.value);
   const onchangeTime = (event) => setTime(event.target.value);
@@ -24,16 +19,23 @@ export const App = () => {
     //   alert("学習時間には数値を入力してください！");
     //   return;
     // }
-    const newRecords = [...records, { title, time }];
-    setRecords(newRecords);
-    setTitle("");
-    setTime("");
+    const { error } = supabase.from("study-record").insert([
+      { title, time: Number(time) }
+    ]);
+
+    if (error) {
+      console.error("登録エラー:", error);
+      alert("データの登録に失敗しました");
+    } else {
+      setTitle("");
+      setTime("");
+    }
   };
 
   return (
     <>
       <InputRecord title={title} time={time} onchangeTitle={onchangeTitle} onchangeTime={onchangeTime} onClickRegister={onClickRegister} />
-      <StudyRecords records={records} totalTime={totalTime} />
+      <StudyRecords />
     </>
   );
 };

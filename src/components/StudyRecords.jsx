@@ -1,11 +1,18 @@
-export const StudyRecords = (props) => {
-    const { records, totalTime } = props;
+import { useRecords } from "../hooks/useRecords";
+
+export const StudyRecords = () => {
+    const { records, loading } = useRecords();
+
+    if (loading) return <p>Loading...</p>
+
+    const totalTime = records.reduce((sum, record) => sum + Number(record.time), 0);
+
     return (
         <div>
             <p>学習記録一覧</p>
             <ul>
-                {records.map((record, index) => (
-                    <li key={index}>
+                {records.map((record) => (
+                    <li key={record.id}>
                         <div>
                             <p>{record.title}, {record.time}時間</p>
                         </div>
