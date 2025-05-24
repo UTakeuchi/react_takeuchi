@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import './App.css';
-
-
+// import { TodoList } from './components/StudyRecord';
 
 export const App = () => {
   const [title, setTitle] = useState("");
@@ -50,6 +49,7 @@ export const App = () => {
         </ul>
         <p>勉強合計時間：{totalTime}時間</p>
       </div >
+      {/* <TodoList /> */}
     </>
   );
 };
