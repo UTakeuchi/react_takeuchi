@@ -38,7 +38,8 @@ export const App = () => {
     } else {
       setTitle("");
       setTime("");
-      // fetchRecords();
+      /** 下の関数を登録時に呼び出したい*/
+      fetchRecords();
     }
   };
 
