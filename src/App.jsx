@@ -32,7 +32,7 @@ export const App = () => {
   const onchangeTime = (event) => setTime(event.target.value);
   const onClickRegister = async () => {
     if (title === "" || time === "") {
-      alert("内容と時間を入力してね！")
+      alert("内容と時間を入力してください")
       return
     }
 
@@ -47,7 +47,6 @@ export const App = () => {
       setTitle("")
       setTime("")
       await fetchRecords()
-      // alert("登録完了しました")
     }
   }
 
