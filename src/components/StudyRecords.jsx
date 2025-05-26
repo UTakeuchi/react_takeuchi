@@ -1,3 +1,4 @@
+//学習記録の一覧を表示するコンポーネント
 export const StudyRecords = (props) => {
     const { records, totalTime } = props;
     return (

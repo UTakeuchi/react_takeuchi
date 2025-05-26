@@ -1,3 +1,4 @@
+//学習内容・時間を入力して登録するコンポーネント
 export const InputRecord = (props) => {
     const { title, time, onchangeTitle, onchangeTime, onClickRegister } = props;
     return (
