@@ -3,8 +3,6 @@ import { useRecords } from "../hooks/useRecords";
 export const StudyRecords = () => {
     const { records, loading } = useRecords();
 
-    if (loading) return <p>Loading...</p>
-
     const totalTime = records.reduce((sum, record) => sum + Number(record.time), 0);
 
     return (

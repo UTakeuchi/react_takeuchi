@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import { InputRecord } from './components/InputRecord';
 import { StudyRecords } from './components/StudyRecords';
@@ -10,18 +10,27 @@ export const App = () => {
 
   const onchangeTitle = (event) => setTitle(event.target.value);
   const onchangeTime = (event) => setTime(event.target.value);
-  const onClickRegister = (title, time) => {
+  const onClickRegister = async (title, time) => {
     if (title === "" || time === "") {
       alert("学習の内容と時間の両方を入力してください！");
       return;
     }
     // else if (typeof time !== "number") {
     //   alert("学習時間には数値を入力してください！");
-    //   return;
+    //   return
     // }
-    const { error } = supabase.from("study-record").insert([
-      { title, time: Number(time) }
-    ]);
+
+    const { data, error } = await supabase
+      .from("study-records")
+      .insert([
+        { title, time: Number(time) }
+      ])
+      .select();
+
+    console.log("🟢 登録送信データ:", { title, time });
+    console.log("🟡 登録結果:", data);
+    console.error("🔴 エラー:", error);
+
 
     if (error) {
       console.error("登録エラー:", error);
@@ -29,6 +38,7 @@ export const App = () => {
     } else {
       setTitle("");
       setTime("");
+      // fetchRecords();
     }
   };
 
