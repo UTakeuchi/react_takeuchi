@@ -1,52 +1,61 @@
-import { useEffect, useState } from 'react';
-import './App.css';
-import { InputRecord } from './components/InputRecord';
-import { StudyRecords } from './components/StudyRecords';
-import { supabase } from './lib/supabaseClient';
+import { useEffect, useState } from 'react'
+import { supabase } from './lib/supabaseClient'
+import { InputRecord } from './components/InputRecord'
+import { StudyRecords } from './components/StudyRecords'
 
 export const App = () => {
-  const [title, setTitle] = useState("");
-  const [time, setTime] = useState("");
+  const [title, setTitle] = useState("")
+  const [time, setTime] = useState("")
+  const [records, setRecords] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  const fetchRecords = async () => {
+    setLoading(true)
+    const { data, error } = await supabase
+      .from('study-records')
+      .select('*')
+      .order('id', { ascending: true })
+
+    if (error) {
+      console.error("取得エラー:", error)
+    } else {
+      setRecords(data)
+    }
+    setLoading(false)
+  }
+
+  useEffect(() => {
+    fetchRecords()
+  }, [])
 
   const onchangeTitle = (event) => setTitle(event.target.value);
   const onchangeTime = (event) => setTime(event.target.value);
-  const onClickRegister = async (title, time) => {
+  const onClickRegister = async () => {
     if (title === "" || time === "") {
-      alert("学習の内容と時間の両方を入力してください！");
-      return;
+      alert("内容と時間を入力してね！")
+      return
     }
-    // else if (typeof time !== "number") {
-    //   alert("学習時間には数値を入力してください！");
-    //   return
-    // }
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("study-records")
-      .insert([
-        { title, time: Number(time) }
-      ])
-      .select();
-
-    console.log("🟢 登録送信データ:", { title, time });
-    console.log("🟡 登録結果:", data);
-    console.error("🔴 エラー:", error);
-
+      .insert([{ title, time: Number(time) }])
 
     if (error) {
-      console.error("登録エラー:", error);
-      alert("データの登録に失敗しました");
+      console.error("登録エラー:", error)
+      alert("登録失敗")
     } else {
-      setTitle("");
-      setTime("");
-      /** 下の関数を登録時に呼び出したい*/
-      fetchRecords();
+      setTitle("")
+      setTime("")
+      await fetchRecords()
+      // alert("登録完了しました")
     }
-  };
+  }
 
   return (
     <>
+      <h2>学習記録一覧</h2>
       <InputRecord title={title} time={time} onchangeTitle={onchangeTitle} onchangeTime={onchangeTime} onClickRegister={onClickRegister} />
-      <StudyRecords />
+      <StudyRecords records={records} loading={loading} />
     </>
-  );
-};
+  )
+}

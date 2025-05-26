@@ -1,7 +1,7 @@
 import { useRecords } from "../hooks/useRecords";
 
-export const StudyRecords = () => {
-    const { records, loading } = useRecords();
+export const StudyRecords = (props) => {
+    const { records, loading } = props;
 
     if (loading) return <p>Loading...</p>
 
@@ -9,7 +9,6 @@ export const StudyRecords = () => {
 
     return (
         <div>
-            <p>学習記録一覧</p>
             <ul>
                 {records.map((record) => (
                     <li key={record.id}>
