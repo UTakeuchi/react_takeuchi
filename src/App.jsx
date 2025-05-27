@@ -50,10 +50,6 @@ export const App = () => {
     }
   }
   const onClickDelete = async (id) => {
-    // const newRecords = [...records];
-    // newRecords.splice(index, 1);
-    // setRecords(newRecords);
-
     const { error } = await supabase
       .from("study-records")
       .delete()
