@@ -1,7 +1,7 @@
 import { useRecords } from "../hooks/useRecords";
 
 export const StudyRecords = (props) => {
-    const { records, loading } = props;
+    const { records, loading, onClickDelete } = props;
 
     if (loading) return <p>Loading...</p>
 
@@ -13,7 +13,7 @@ export const StudyRecords = (props) => {
                 {records.map((record) => (
                     <li key={record.id}>
                         <div>
-                            <p>{record.title}, {record.time}時間</p>
+                            <p>{record.title}, {record.time}時間 <button onClick={() => onClickDelete(record.id)}>削除</button></p>
                         </div>
                     </li>
                 ))}

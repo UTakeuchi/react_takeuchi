@@ -49,12 +49,30 @@ export const App = () => {
       await fetchRecords()
     }
   }
+  const onClickDelete = async (id) => {
+    // const newRecords = [...records];
+    // newRecords.splice(index, 1);
+    // setRecords(newRecords);
+
+    const { error } = await supabase
+      .from("study-records")
+      .delete()
+      .eq("id", id);
+    if (error) {
+      console.error("削除エラー:", error)
+      alert("削除失敗")
+    } else {
+      setTitle("")
+      setTime("")
+      await fetchRecords()
+    }
+  };
 
   return (
     <>
       <h2>学習記録一覧</h2>
       <InputRecord title={title} time={time} onchangeTitle={onchangeTitle} onchangeTime={onchangeTime} onClickRegister={onClickRegister} />
-      <StudyRecords records={records} loading={loading} />
+      <StudyRecords records={records} loading={loading} onClickDelete={onClickDelete} />
     </>
   )
 }
