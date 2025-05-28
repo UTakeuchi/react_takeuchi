@@ -1,3 +1,4 @@
+// 学習記録入力フォームコンポーネント
 export const InputRecord = (props) => {
     const { title, time, onchangeTitle, onchangeTime, onClickRegister } = props;
     return (

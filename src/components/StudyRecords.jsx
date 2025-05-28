@@ -1,5 +1,4 @@
-import { useRecords } from "../hooks/useRecords";
-
+// 学習記録表示コンポーネント
 export const StudyRecords = (props) => {
     const { records, loading, onClickDelete } = props;
 
