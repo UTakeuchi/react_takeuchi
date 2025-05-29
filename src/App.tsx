@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { supabase } from './utils/supabase'
 import { InputRecord } from './components/InputRecord'
 import { StudyRecords } from './components/StudyRecords'
+import { getAllRecords } from './lib/record'
+import type { Record } from './domain/record'
 
 export const App = () => {
   // 学習内容のタイトルを管理するState
@@ -9,7 +11,7 @@ export const App = () => {
   // 学習時間を管理するState
   const [time, setTime] = useState("")
   // 学習記録のリストを管理するState
-  const [records, setRecords] = useState([])
+  const [records, setRecords] = useState<Record[]>()
   // データ取得中のローディング状態を管理するState
   const [loading, setLoading] = useState(true)
 
@@ -19,22 +21,8 @@ export const App = () => {
   const fetchRecords = async () => {
     setLoading(true) // ローディング開始
     try {
-      // 'study-records'テーブルから全てのデータをIDの昇順で取得
-      const { data, error } = await supabase
-        .from('study-records')
-        .select('*')
-        .order('id', { ascending: true })
-
-      console.log(data);
-
-      if (error) {
-        // データ取得でエラーが発生した場合
-        console.error("取得エラー:", error)
-        alert("データの取得に失敗しました。")
-      } else {
-        // データ取得に成功した場合、Stateを更新
-        setRecords(data)
-      }
+      const recordsData = await getAllRecords();
+      setRecords(recordsData);
     } catch (error) {
       console.error("予期せぬエラー:", error)
       alert("予期せぬエラーが発生しました。")
