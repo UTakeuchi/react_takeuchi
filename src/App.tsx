@@ -4,6 +4,7 @@ import { InputRecord } from './components/InputRecord'
 import { StudyRecords } from './components/StudyRecords'
 import { GetAllRecords } from './lib/record'
 import type { Record } from './domain/record'
+import { ChakraProvider } from '@chakra-ui/react'
 
 export const App = () => {
   // 学習内容のタイトルを管理するState
@@ -55,8 +56,14 @@ export const App = () => {
    */
   const onClickRegister = async () => {
     // タイトルか時間が未入力の場合はアラートを表示して処理を中断
-    if (title === "" || time === "") {
-      alert("内容と時間を入力してください")
+    if (title === "") {
+      alert("内容は必須です")
+      return
+    } else if (time === "") {
+      alert("時間は必須です")
+      return
+    } else if (Number(time) <= 0){
+      alert("時間は0を超える必要があります")
       return
     }
 
@@ -110,7 +117,7 @@ export const App = () => {
 
   // コンポーネントの描画内容
   return (
-    <>
+    <ChakraProvider>
       <h2>学習記録一覧</h2>
       {/* 学習記録入力フォームコンポーネント */}
       <InputRecord
@@ -126,6 +133,6 @@ export const App = () => {
         loading={loading}
         onClickDelete={onClickDelete}
       />
-    </>
+    </ChakraProvider>
   )
 }
