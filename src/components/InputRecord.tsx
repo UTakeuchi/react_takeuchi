@@ -48,6 +48,7 @@ export const InputRecord = (props: Props) => {
                     <ModalFooter>
                         <Button onClick={() => {
                             onClickRegister(title, time);
+                            onClose();
                         }}>登録</Button>
                     </ModalFooter>
                 </ModalContent>
