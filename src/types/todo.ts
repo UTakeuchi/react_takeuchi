@@ -4,6 +4,7 @@ export type DataType = {
     time: string;
     onChangeTitle: any;
     onChangeTime: any;
+    onClickEdit: any;
     onClickRegister: any;
     records: Array<any>;
     loading: any;
