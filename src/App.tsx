@@ -5,6 +5,7 @@ import { StudyRecords } from "./components/StudyRecords";
 import { GetAllRecords } from "./lib/record";
 import type { Record } from "./domain/record";
 import { ChakraProvider, Stack } from "@chakra-ui/react";
+import type { RecordType } from "./types/todo";
 
 export const App = () => {
   // 学習内容のタイトルを管理するState
@@ -95,13 +96,14 @@ export const App = () => {
    * 「編集」ボタンがクリックされた時に指定されたIDの学習記録の更新をSupabaseに反映させる非同期関数
    * @param {number} id - 削除する記録のID
    */
-  const onClickEdit = async (id) => {
+  const onClickEdit = async (record: RecordType) => {
+    const { id, title, time } = record;
     try {
       // 'study-records'テーブルから指定されたIDの記録を削除
       const { error } = await supabase
         .from("study-records")
         .update([{ id, title, time: Number(time) }])
-        .eq("id", id); // 'id'カラムが指定されたidと一致するものを対象
+        .eq("id", record.id); // 'id'カラムが指定されたidと一致するものを対象
 
       if (error) {
         // 保存でエラーが発生した場合

@@ -12,11 +12,16 @@ import {
   ModalOverlay,
   Stack,
   useDisclosure,
-  Wrap,
-  WrapItem,
+  //   Wrap,
+  //   WrapItem,
 } from "@chakra-ui/react";
-import type { DataType } from "../types/todo";
-import { useCallback, useState, type ChangeEvent } from "react";
+import type { DataType, RecordType } from "../types/todo";
+import {
+  useCallback,
+  useState,
+  type ChangeEvent,
+  type MouseEventHandler,
+} from "react";
 
 // 学習記録表示コンポーネント
 export const StudyRecords = (
@@ -46,16 +51,16 @@ export const StudyRecords = (
   } | null>(null);
 
   const onClickEditModal = useCallback(
-    (record: { id: string; title: string; time: string }) => {
+    (record: RecordType) => {
       setSelectedRecord(record);
       onOpen();
     },
     [onOpen]
   );
 
-  const handleEdit = () => {
+  const handleEdit = (selectedRecord: RecordType) => {
     if (selectedRecord) {
-      onClickEdit(selectedRecord.title, selectedRecord.time);
+      onClickEdit(selectedRecord);
       onClose();
     }
   };
@@ -67,26 +72,23 @@ export const StudyRecords = (
   );
 
   return (
-    <Wrap spacing={10}>
+    <>
       <div>
         <ul>
           {records.map((record) => (
-            <WrapItem>
-              <li key={record.id}>
-                <div style={{ width: "300px", height: "50px" }}>
-                  <p>
-                    {record.title}, {record.time}時間
-                    <Button onClick={() => onClickEditModal(record)}>
-                      編集
-                    </Button>
-                    <Button onClick={() => onClickDelete(record.id)}>
-                      削除
-                    </Button>
-                  </p>
-                </div>
-              </li>
-            </WrapItem>
+            // <WrapItem>
+            <li key={record.id}>
+              <div style={{ width: "300px", height: "50px" }}>
+                <p>
+                  {record.title}, {record.time}時間
+                  <Button onClick={() => onClickEditModal(record)}>編集</Button>
+                  <Button onClick={() => onClickDelete(record.id)}>削除</Button>
+                </p>
+              </div>
+            </li>
+            // </WrapItem>
           ))}
+          ;
         </ul>
         <p>勉強合計時間：{totalTime}時間</p>
       </div>
@@ -127,10 +129,17 @@ export const StudyRecords = (
             </Stack>
           </ModalBody>
           <ModalFooter>
-            <Button onClick={handleEdit}>保存</Button>
+            <Button
+              onClick={() => {
+                onClickEdit(selectedRecord);
+                onClose();
+              }}
+            >
+              登録
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </Wrap>
+    </>
   );
 };
