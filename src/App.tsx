@@ -100,11 +100,11 @@ export const App = () => {
       // 'study-records'テーブルから指定されたIDの記録を削除
       const { error } = await supabase
         .from("study-records")
-        .update([{ title, time: Number(time) }])
+        .update([{ id, title, time: Number(time) }])
         .eq("id", id); // 'id'カラムが指定されたidと一致するものを対象
 
       if (error) {
-        // 削除でエラーが発生した場合
+        // 保存でエラーが発生した場合
         console.error("削除エラー:", error);
         alert("保存失敗");
       } else {

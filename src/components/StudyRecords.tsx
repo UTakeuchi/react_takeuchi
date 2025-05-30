@@ -42,11 +42,11 @@ export const StudyRecords = (
   const [selectedRecord, setSelectedRecord] = useState<{
     id: string;
     title: string;
-    time: number;
+    time: string;
   } | null>(null);
 
   const onClickEditModal = useCallback(
-    (record: { id: string; title: string; time: number }) => {
+    (record: { id: string; title: string; time: string }) => {
       setSelectedRecord(record);
       onOpen();
     },
@@ -119,7 +119,7 @@ export const StudyRecords = (
                   value={selectedRecord?.time ?? ""}
                   onChange={(e: ChangeEvent<HTMLInputElement>) =>
                     setSelectedRecord((prev) =>
-                      prev ? { ...prev, time: Number(e.target.value) } : null
+                      prev ? { ...prev, time: e.target.value } : null
                     )
                   }
                 />
