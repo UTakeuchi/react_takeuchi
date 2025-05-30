@@ -4,7 +4,7 @@ import { InputRecord } from './components/InputRecord'
 import { StudyRecords } from './components/StudyRecords'
 import { GetAllRecords } from './lib/record'
 import type { Record } from './domain/record'
-import { ChakraProvider } from '@chakra-ui/react'
+import { ChakraProvider, Stack } from '@chakra-ui/react'
 
 export const App = () => {
   // 学習内容のタイトルを管理するState
@@ -118,7 +118,8 @@ export const App = () => {
   // コンポーネントの描画内容
   return (
     <ChakraProvider>
-      <h2>学習記録一覧</h2>
+      <Stack spacing={5}>
+      <h1>学習記録一覧</h1>
       {/* 学習記録入力フォームコンポーネント */}
       <InputRecord
         title={title}
@@ -133,6 +134,7 @@ export const App = () => {
         loading={loading}
         onClickDelete={onClickDelete}
       />
+      </Stack>
     </ChakraProvider>
   )
 }

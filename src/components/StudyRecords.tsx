@@ -1,3 +1,4 @@
+import { Button, Wrap, WrapItem } from "@chakra-ui/react";
 import type { DataType } from "../types/todo";
 
 
@@ -10,17 +11,25 @@ export const StudyRecords = (props: Pick<DataType, "records" | "loading" | "onCl
     const totalTime = records.reduce((sum, record) => sum + Number(record.time), 0);
 
     return (
-        <div>
-            <ul>
-                {records.map((record) => (
-                    <li key={record.id}>
-                        <div>
-                            <p>{record.title}, {record.time}時間 <button onClick={() => onClickDelete(record.id)}>削除</button></p>
-                        </div>
-                    </li>
-                ))}
-            </ul>
-            <p>勉強合計時間：{totalTime}時間</p>
-        </div >
+        <Wrap spacing={10}>  
+            <div>
+                <ul>
+                    {records.map((record) => (
+                        <WrapItem>
+                            <li key={record.id}>
+                                <div style={{width: "300px",height:"50px"}}>
+                                    <p>{record.title}, {record.time}時間 
+                                        <Button onClick={() => onClickDelete(record.id)}>編集</Button>
+                                        <Button onClick={() => onClickDelete(record.id)}>削除</Button>
+                                    </p>
+                                </div>
+                            </li>
+                        </WrapItem>
+                    ))}
+                </ul>
+                <p>勉強合計時間：{totalTime}時間</p>
+            </div>
+
+        </Wrap>
     )
 }

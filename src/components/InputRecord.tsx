@@ -54,7 +54,6 @@ export const InputRecord = (props: Props) => {
                 </ModalContent>
             </Modal>
             <br />
-
         </div>
     )
 }
