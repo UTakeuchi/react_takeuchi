@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { supabase } from './utils/supabase'
 import { InputRecord } from './components/InputRecord'
 import { StudyRecords } from './components/StudyRecords'
-import { getAllRecords } from './lib/record'
+import { GetAllRecords } from './lib/record'
 import type { Record } from './domain/record'
 
 export const App = () => {
@@ -21,7 +21,7 @@ export const App = () => {
   const fetchRecords = async () => {
     setLoading(true) // ローディング開始
     try {
-      const recordsData = await getAllRecords();
+      const recordsData = await GetAllRecords();
       setRecords(recordsData);
     } catch (error) {
       console.error("予期せぬエラー:", error)
@@ -42,13 +42,13 @@ export const App = () => {
    * タイトル入力フィールドの値が変更された時にStateを更新する関数
    * @param {React.ChangeEvent<HTMLInputElement>} event - input要素のイベントオブジェクト
    */
-  const onchangeTitle = (event: any) => setTitle(event.target.value);
+  const onChangeTitle = (event: any) => setTitle(event.target.value);
 
   /**
    * 時間入力フィールドの値が変更された時にStateを更新する関数
    * @param {React.ChangeEvent<HTMLInputElement>} event - input要素のイベントオブジェクト
    */
-  const onchangeTime = (event: any) => setTime(event.target.value);
+  const onChangeTime = (event: any) => setTime(event.target.value);
 
   /**
    * 「登録」ボタンがクリックされた時に学習記録をSupabaseに登録する非同期関数
@@ -116,8 +116,8 @@ export const App = () => {
       <InputRecord
         title={title}
         time={time}
-        onchangeTitle={onchangeTitle}
-        onchangeTime={onchangeTime}
+        onChangeTitle={onChangeTitle}
+        onChangeTime={onChangeTime}
         onClickRegister={onClickRegister}
       />
       {/* /* 学習記録表示コンポーネント  */}

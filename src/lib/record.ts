@@ -4,7 +4,7 @@ import { Record } from "../domain/record";
 /**
  * Supabaseから学習記録を取得する非同期関数
  */
-export const getAllRecords = async () => {
+export const GetAllRecords = async () => {
     const { data, error } = await supabase
         .from('study-records')
         .select('*')
