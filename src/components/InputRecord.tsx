@@ -30,7 +30,7 @@ export const InputRecord = (props: Props) => {
             <Modal isOpen={isOpen} onClose={onClose} autoFocus={false} motionPreset="slideInBottom">
                 <ModalOverlay />
                 <ModalContent pb={6}>
-                    <ModalHeader>学習記録を登録する</ModalHeader>
+                    <ModalHeader>新規登録</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody mx={4}>
                         <Stack spacing={4}>

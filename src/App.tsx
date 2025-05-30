@@ -132,6 +132,8 @@ export const App = () => {
       <StudyRecords
         records={records}
         loading={loading}
+        onChangeTitle={onChangeTitle}
+        onChangeTime={onChangeTime}
         onClickDelete={onClickDelete}
       />
       </Stack>
