@@ -16,12 +16,7 @@ import {
   //   WrapItem,
 } from "@chakra-ui/react";
 import type { DataType, RecordType } from "../types/todo";
-import {
-  useCallback,
-  useState,
-  type ChangeEvent,
-  type MouseEventHandler,
-} from "react";
+import { useCallback, useState, type ChangeEvent } from "react";
 
 // 学習記録表示コンポーネント
 export const StudyRecords = (
@@ -58,12 +53,6 @@ export const StudyRecords = (
     [onOpen]
   );
 
-  const handleEdit = (selectedRecord: RecordType) => {
-    if (selectedRecord) {
-      onClickEdit(selectedRecord);
-      onClose();
-    }
-  };
   if (loading) return <p>Loading...</p>;
 
   const totalTime = records.reduce(
