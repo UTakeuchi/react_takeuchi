@@ -6,6 +6,9 @@ import { GetAllRecords } from "./lib/record";
 import type { Record } from "./domain/record";
 import { ChakraProvider, Stack } from "@chakra-ui/react";
 import type { RecordType } from "./types/todo";
+import { BrowserRouter } from "react-router-dom";
+
+import { Router } from "./router/router";
 
 export const App = () => {
   // 学習内容のタイトルを管理するState
@@ -44,15 +47,13 @@ export const App = () => {
    * タイトル入力フィールドの値が変更された時にStateを更新する関数
    * @param {React.ChangeEvent<HTMLInputElement>} event - input要素のイベントオブジェクト
    */
-  const onChangeTitle = (event: ChangeEvent<HTMLInputElement>) =>
-    setTitle(event.target.value);
+  const onChangeTitle = (event: ChangeEvent<HTMLInputElement>) => setTitle(event.target.value);
 
   /**
    * 時間入力フィールドの値が変更された時にStateを更新する関数
    * @param {React.ChangeEvent<HTMLInputElement>} event - input要素のイベントオブジェクト
    */
-  const onChangeTime = (event: ChangeEvent<HTMLInputElement>) =>
-    setTime(event.target.value);
+  const onChangeTime = (event: ChangeEvent<HTMLInputElement>) => setTime(event.target.value);
 
   /**
    * 「登録」ボタンがクリックされた時に学習記録をSupabaseに登録する非同期関数
@@ -72,9 +73,7 @@ export const App = () => {
 
     try {
       // 'study-records'テーブルに新しい記録を挿入
-      const { error } = await supabase
-        .from("study-records")
-        .insert([{ title, time: Number(time) }]); // timeは数値型に変換
+      const { error } = await supabase.from("study-records").insert([{ title, time: Number(time) }]); // timeは数値型に変換
 
       if (error) {
         // 登録でエラーが発生した場合
@@ -126,10 +125,7 @@ export const App = () => {
   const onClickDelete = async (id) => {
     try {
       // 'study-records'テーブルから指定されたIDの記録を削除
-      const { error } = await supabase
-        .from("study-records")
-        .delete()
-        .eq("id", id); // 'id'カラムが指定されたidと一致するものを対象
+      const { error } = await supabase.from("study-records").delete().eq("id", id); // 'id'カラムが指定されたidと一致するものを対象
 
       if (error) {
         // 削除でエラーが発生した場合
@@ -148,26 +144,31 @@ export const App = () => {
   // コンポーネントの描画内容
   return (
     <ChakraProvider>
-      <Stack spacing={5}>
-        <h1>学習記録一覧</h1>
-        {/* 学習記録入力フォームコンポーネント */}
-        <InputRecord
-          title={title}
-          time={time}
-          onChangeTitle={onChangeTitle}
-          onChangeTime={onChangeTime}
-          onClickRegister={onClickRegister}
-        />
-        {/* /* 学習記録表示コンポーネント  */}
-        <StudyRecords
-          records={records}
-          loading={loading}
-          onChangeTitle={onChangeTitle}
-          onChangeTime={onChangeTime}
-          onClickEdit={onClickEdit}
-          onClickDelete={onClickDelete}
-        />
-      </Stack>
+      <BrowserRouter>
+        <Router />
+      </BrowserRouter>
+      {
+        <Stack spacing={5}>
+          <h1>学習記録一覧</h1>
+          {/* 学習記録入力フォームコンポーネント */}
+          <InputRecord
+            title={title}
+            time={time}
+            onChangeTitle={onChangeTitle}
+            onChangeTime={onChangeTime}
+            onClickRegister={onClickRegister}
+          />
+          {/* /* 学習記録表示コンポーネント  */}
+          <StudyRecords
+            records={records}
+            loading={loading}
+            onChangeTitle={onChangeTitle}
+            onChangeTime={onChangeTime}
+            onClickEdit={onClickEdit}
+            onClickDelete={onClickDelete}
+          />
+        </Stack>
+      }
     </ChakraProvider>
   );
 };
